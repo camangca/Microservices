@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PlatformService.Data;
 
-namespace CommandsService
+namespace PlatformService
 {
     public class Startup
     {
@@ -32,6 +32,7 @@ namespace CommandsService
             services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMen"));
             services.AddScoped<IPlatformClientRepo,PlatformClientRepo>();
             services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CommandsService", Version = "v1" });
@@ -59,6 +60,7 @@ namespace CommandsService
                 endpoints.MapControllers();
             });
 
+            PrepDb.PrepPopulation(app);
           }
     }
 }
